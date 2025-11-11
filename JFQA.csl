@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
+  <info>
+    <title>JFQA (custom)</title>
+    <title-short>JFQA</title-short>
+    <id>http://www.zotero.org/styles/jfqa-custom</id>
+    <link href="http://www.zotero.org/styles/jfqa-custom" rel="self"/>
+    <author>
+      <name>Custom style for Journal of Financial and Quantitative Analysis (JFQA)</name>
+    </author>
+    <category citation-format="author-date"/>
+    <category field="social_science"/>
+    <updated>2025-11-11T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+
+  <!-- ===================
+       GLOBAL FORMATTING
+       =================== -->
+  <macro name="author">
+    <names variable="author">
+      <name name-as-sort-order="all" sort-separator=", " delimiter="; " initialize-with=". " delimiter-precedes-last="always" and="text"/>
+      <label form="long" prefix=", " text-case="lowercase" strip-periods="true"/>
+      <substitute>
+        <names variable="editor"/>
+        <text variable="container-title"/>
+        <text variable="publisher"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <name name-as-sort-order="all" sort-separator=", " delimiter="; " initialize-with=". " delimiter-precedes-last="always" and="text"/>
+      <label form="short" suffix="." strip-periods="true"/>
+    </names>
+  </macro>
+
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <macro name="title-in-quotes-titlecase">
+    <text variable="title" quotes="true" text-case="title"/>
+  </macro>
+
+  <macro name="chapter-locator">
+    <group delimiter=", ">
+      <group>
+        <text term="in" text-case="capitalize-first"/>
+        <text variable="container-title" font-style="italic"/>
+      </group>
+      <group>
+        <text variable="volume" prefix="Vol. "/>
+      </group>
+      <group>
+        <names variable="editor">
+          <name initialize-with=". " delimiter=" and " name-as-sort-order="first"/>
+          <label form="short" suffix="." strip-periods="true"/>
+        </names>
+      </group>
+      <group delimiter=": ">
+        <text variable="publisher-place"/>
+        <text variable="publisher"/>
+      </group>
+      <group>
+        <text macro="issued-year" prefix="(" suffix=")"/>
+      </group>
+      <group>
+        <text variable="page"/>
+      </group>
+    </group>
+  </macro>
+
+  <macro name="journal-details">
+    <group delimiter=", ">
+      <text variable="container-title" font-style="italic"/>
+      <group>
+        <text variable="volume"/>
+        <group prefix=" (" suffix=")">
+          <text macro="issued-year"/>
+        </group>
+      </group>
+      <text variable="page"/>
+    </group>
+  </macro>
+
+  <macro name="working-paper-details">
+    <group delimiter=", ">
+      <text value="Working Paper"/>
+      <choose>
+        <if variable="publisher">
+          <text variable="publisher"/>
+        </if>
+        <else-if variable="publisher-place">
+          <text variable="publisher-place"/>
+        </else-if>
+        <else-if variable="institution">
+          <text variable="institution"/>
+        </else-if>
+      </choose>
+      <text macro="issued-year" prefix="(" suffix=")"/>
+    </group>
+  </macro>
+
+  <macro name="book-details">
+    <group delimiter=", ">
+      <group delimiter=": ">
+        <text variable="publisher-place"/>
+        <text variable="publisher"/>
+      </group>
+      <text macro="issued-year" prefix="(" suffix=")"/>
+      <text variable="page"/>
+    </group>
+  </macro>
+
+  <!-- ===================
+       BIBLIOGRAPHY LAYOUT
+       =================== -->
+  <bibliography hanging-indent="false" et-al-min="100" et-al-use-first="100" line-spacing="1" entry-spacing="0" second-field-align="flush">
+    <sort>
+      <key macro="author"/>
+      <key variable="issued"/>
+      <key variable="title"/>
+    </sort>
+    <layout suffix=".">
+      <group delimiter=". ">
+        <text macro="author"/>
+        <text macro="title-in-quotes-titlecase"/>
+        <choose>
+          <if type="article-journal article-magazine article-newspaper" match="any">
+            <text macro="journal-details"/>
+          </if>
+          <else-if type="chapter paper-conference" match="any">
+            <text macro="chapter-locator"/>
+          </else-if>
+          <else-if type="report">
+            <text macro="working-paper-details"/>
+          </else-if>
+          <else-if type="thesis">
+            <group delimiter=", ">
+              <text variable="genre"/>
+              <text variable="publisher"/>
+              <text macro="issued-year" prefix="(" suffix=")"/>
+            </group>
+          </else-if>
+          <else-if type="book">
+            <text macro="book-details"/>
+          </else-if>
+          <else>
+            <group delimiter=", ">
+              <text variable="container-title" font-style="italic"/>
+              <text macro="issued-year" prefix="(" suffix=")"/>
+              <text variable="page"/>
+            </group>
+          </else>
+        </choose>
+      </group>
+    </layout>
+  </bibliography>
+
+  <!-- ===================
+       CITATION (IN-TEXT)
+       =================== -->
+  <citation collapse="year" et-al-min="4" et-al-use-first="1">
+    <sort>
+      <key macro="author"/>
+      <key macro="issued-year"/>
+    </sort>
+    <layout delimiter="; " prefix="(" suffix=")">
+      <group delimiter=", ">
+        <names variable="author">
+          <name form="short"/>
+        </names>
+        <text macro="issued-year"/>
+        <group>
+          <label variable="locator" form="short" suffix=" "/>
+          <text variable="locator"/>
+        </group>
+      </group>
+    </layout>
+  </citation>
+
+  <!-- ===================
+       NO DOI / URL / ISSUE
+       =================== -->
+  <macro name="suppress-doi-url"/>
+</style>
